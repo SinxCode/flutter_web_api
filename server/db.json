@@ -1,0 +1,84 @@
+{
+  "users": [
+    {
+      "email": "teste@gmail.com",
+      "password": "$2a$10$8f5LlRNlu566gicRw4L6wuYM3Fh0G0y6mR0kDsnFmmmmbKtDboncC",
+      "id": 1
+    },
+    {
+      "email": "teste2@gmail.com",
+      "password": "$2a$10$xGnvFvYBejiGudMnusFyJOsgfvQgcYYg3rvksSu52snQWSx9OAIWK",
+      "id": 2
+    },
+    {
+      "email": "teste22@gmail.com",
+      "password": "$2a$10$wibWbBZa76EZ03NpE9z6O.afauP8iVXaRMbEX.fJCbPA3BvZkWBbu",
+      "id": 3
+    }
+  ],
+  "learnhttp": {
+    "content": "Olá mundo!"
+  },
+  "journals": [
+    {
+      "id": "dc7aaa00-736d-11ee-b279-7fbd1b564b56",
+      "content": "",
+      "createdAt": "2023-10-25 19:36:58.277605",
+      "updatedAt": "2023-10-25 19:36:58.277785"
+    },
+    {
+      "id": "878e2d30-736f-11ee-ae3b-8fefc03c9f87",
+      "content": "",
+      "createdAt": "2023-10-25 19:48:54.792539",
+      "updatedAt": "2023-10-25 19:48:54.792551"
+    },
+    {
+      "id": "94b889b0-736f-11ee-ae3b-8fefc03c9f87",
+      "content": "Hoje foi um grande dia de merda",
+      "createdAt": "2023-10-17 19:48:55.608815",
+      "updatedAt": "2023-10-17 19:48:55.608815"
+    },
+    {
+      "id": "aa7c9700-736f-11ee-ae3b-8fefc03c9f87",
+      "content": "Ainda está merda",
+      "createdAt": "2023-10-18 19:48:55.608815",
+      "updatedAt": "2023-10-18 19:48:55.608815"
+    },
+    {
+      "id": "cc63d490-7370-11ee-88ae-e9b7f8bf47f7",
+      "content": "Nao acredito que ainda está merda",
+      "createdAt": "2023-10-16 19:57:57.048234",
+      "updatedAt": "2023-10-16 19:57:57.048234"
+    },
+    {
+      "id": "25b7e280-7375-11ee-8520-7b9a49559ec4",
+      "content": "Mds que merda",
+      "createdAt": "2023-10-18 20:29:02.567201",
+      "updatedAt": "2023-10-18 20:29:02.567201"
+    },
+    {
+      "id": "b1987d40-7376-11ee-832a-f7267f84bfb7",
+      "content": "Morrer",
+      "createdAt": "2023-10-18 20:40:10.647757",
+      "updatedAt": "2023-10-18 20:40:10.647757"
+    },
+    {
+      "id": "c657d280-737b-11ee-832a-f7267f84bfb7",
+      "content": "oi",
+      "createdAt": "2023-10-19 20:40:10.647757",
+      "updatedAt": "2023-10-19 20:40:10.647757"
+    },
+    {
+      "id": "004f1110-771e-11ee-93ac-15c8bfa1744c",
+      "content": "ghbs",
+      "createdAt": "2023-10-26 12:14:36.927858",
+      "updatedAt": "2023-10-26 12:14:36.927858"
+    },
+    {
+      "id": "1f43df10-771e-11ee-b116-1715d5df32e1",
+      "content": "gfgd",
+      "createdAt": "2023-10-23 12:16:01.968154",
+      "updatedAt": "2023-10-23 12:16:01.968154"
+    }
+  ]
+}
