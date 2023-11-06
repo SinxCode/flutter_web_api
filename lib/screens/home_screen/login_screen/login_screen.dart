@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_webapi_first_course/screens/home_screen/commom/confirmation_dialog.dart';
+import 'package:flutter_webapi_first_course/screens/home_screen/commom/exception_dialog.dart';
 import 'package:flutter_webapi_first_course/services/auth_service.dart';
 
 // ignore: must_be_immutable
@@ -72,13 +75,19 @@ class LoginScreen extends StatelessWidget {
     String email = _emailController.text;
     String password = _passwordController.text;
 
-    try {
-      service.login(email: email, password: password).then((resultLogin){
+    service.login(email: email, password: password).then(
+      (resultLogin) {
         if (resultLogin) {
           Navigator.pushReplacementNamed(context, "home");
         }
-      } );
-    } on UserNotFindException {
+      },
+    ).catchError(
+      (error) {
+        var innerError = error as HttpException;
+        showExceptionDialog(context, content: innerError.message);
+      },
+      test: (error) => error is HttpException,
+    ).catchError((error) {
       ShowConfirmationDialog(
         context,
         content:
@@ -86,14 +95,16 @@ class LoginScreen extends StatelessWidget {
         affirmativeOption: "CRIAR",
       ).then((value) {
         if (value != null && value) {
-          service.register(email: email, password: password).then((resultRegister) {
+          service
+              .register(email: email, password: password)
+              .then((resultRegister) {
             if (resultRegister) {
               Navigator.pushReplacementNamed(context, "home");
             }
           });
-          
         }
       });
-    }
+    }, test: ((error) => error is UserNotFindException));
+
   }
 }

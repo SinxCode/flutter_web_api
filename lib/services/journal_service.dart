@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter_webapi_first_course/models/journal.dart';
 import 'package:flutter_webapi_first_course/services/http_interceptors.dart';
@@ -29,10 +30,13 @@ class JournalService {
       },
       body: jsonJournal,
     );
-    if (response.statusCode == 201) {
-      return true;
+    if (response.statusCode != 201) {
+      if (json.decode(response.body)  == "jwt expired") {
+        throw TokenNotValidException();
+      }
+      throw HttpException(response.body);
     }
-    return false;
+    return true;
   }
 
   //Criando Controller de edição (PUT)
@@ -47,10 +51,13 @@ class JournalService {
       body: jsonJournal,
     );
 
-    if (response.statusCode == 200) {
-      return true;
+     if (response.statusCode != 201) {
+      if (json.decode(response.body)  == "jwt expired") {
+        throw TokenNotValidException();
+      }
+      throw HttpException(response.body);
     }
-    return false;
+    return true;
   }
 
   //Criando um controller de leitura (GET)
@@ -61,9 +68,12 @@ class JournalService {
         headers: {"Authorization": "Bearer $token"});
 
     if (response.statusCode != 200) {
-      throw Exception();
+      if (json.decode(response.body)  == "jwt expired") {
+        throw TokenNotValidException();
+      }
+      throw HttpException(response.body);
     }
-
+    
     List<Journal> list = [];
 
     List<dynamic> listDynamic = json.decode(response.body);
@@ -79,9 +89,16 @@ class JournalService {
   Future<bool> delete(String id, String token) async {
     http.Response response = await http.delete(Uri.parse("${getUrl()}$id"),
         headers: {"Authorization": "Bearer $token"});
-    if (response.statusCode == 200) {
-      return true;
+     if (response.statusCode != 201) {
+      if (json.decode(response.body)  == "jwt expired") {
+        throw TokenNotValidException();
+      }
+      throw HttpException(response.body);
     }
-    return false;
-  }
+    return true;
+ }
+}
+
+class TokenNotValidException implements Exception{
+
 }
