@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_webapi_first_course/helpers/weekday.dart';
 import 'package:flutter_webapi_first_course/models/journal.dart';
 import 'package:flutter_webapi_first_course/screens/home_screen/commom/confirmation_dialog.dart';
+import 'package:flutter_webapi_first_course/screens/home_screen/commom/exception_dialog.dart';
 import 'package:flutter_webapi_first_course/services/journal_service.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../../helpers/logout.dart';
 
 class JournalCard extends StatelessWidget {
   final Journal? journal;
@@ -118,12 +121,11 @@ class JournalCard extends StatelessWidget {
   //Função para chamar a tela de cadastro / edição de Journal
   callAddJournalScreen(BuildContext context, {Journal? journal}) {
     Journal innerJournal = Journal(
-      id: const Uuid().v1(),
-      content: "",
-      createdAt: showedDate,
-      updatedAt: showedDate,
-      userId: userId
-    );
+        id: const Uuid().v1(),
+        content: "",
+        createdAt: showedDate,
+        updatedAt: showedDate,
+        userId: userId);
     Map<String, dynamic> map = {};
     if (journal != null) {
       innerJournal = journal;
@@ -152,25 +154,38 @@ class JournalCard extends StatelessWidget {
 
     if (journal != null) {
       ShowConfirmationDialog(context,
-              content:
-                  "Deseja realmente remover e entrada?",
+              content: "Deseja realmente remover e entrada?",
               affirmativeOption: "Remover")
           .then((value) {
         if (value != null) {
           if (value) {
-            service.delete(journal!.id, token).then((value) {
-              if (value) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Removido com Sucesso!"),
-                  ),
-                );
-                refreshFunction();
-              }
-            });
+            service.delete(journal!.id, token).then(
+              (value) {
+                if (value) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Removido com Sucesso!"),
+                    ),
+                  );
+                  refreshFunction();
+                }
+              },
+            ).catchError(
+                (error) {
+                  logout(context);
+                },
+                test: (error) => error is TokenNotValidException,
+              ).catchError(
+                (error) {
+                  showExceptionDialog(context, content: error.message);
+                },
+                test: (error) => error is HttpException,
+              );
           }
         }
       });
     }
   }
 }
+
+class HttpException {}
