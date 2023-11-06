@@ -51,18 +51,32 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: const Icon(Icons.refresh))
         ],
       ),
-      body: (userId != null && userToken !=null)?
-      ListView(
-        controller: _listScrollController,
-        children: generateListJournalCards(
-          windowPage: windowPage,
-          currentDay: currentDay,
-          database: database,
-          refreshFunction: refresh,
-          userId: userId!,
-          token: userToken!,
-        ),
-      ):const Center(child: CircularProgressIndicator(),),
+      drawer: Drawer(
+        child: ListView(children: [
+          ListTile(
+            onTap: () {
+              logout();
+            },
+            title: Text("Sair"),
+            leading: const Icon(Icons.logout),
+          )
+        ]),
+      ),
+      body: (userId != null && userToken != null)
+          ? ListView(
+              controller: _listScrollController,
+              children: generateListJournalCards(
+                windowPage: windowPage,
+                currentDay: currentDay,
+                database: database,
+                refreshFunction: refresh,
+                userId: userId!,
+                token: userToken!,
+              ),
+            )
+          : const Center(
+              child: CircularProgressIndicator(),
+            ),
     );
   }
 
@@ -76,7 +90,6 @@ class _HomeScreenState extends State<HomeScreen> {
         setState(() {
           userId = id;
           userToken = token;
-
         });
         service
             .getAll(id: id.toString(), token: token)
@@ -88,10 +101,17 @@ class _HomeScreenState extends State<HomeScreen> {
             }
           });
         });
-      }     
-      else {
+      } else {
         Navigator.pushReplacementNamed(context, "login");
       }
+    });
+  }
+
+  //Função para deslogar
+  logout(){
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.clear();
+      Navigator.pushReplacementNamed(context, "login");
     });
   }
 }
