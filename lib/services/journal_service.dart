@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+
 import 'package:flutter_webapi_first_course/models/journal.dart';
 import 'package:flutter_webapi_first_course/services/http_interceptors.dart';
 import 'package:http/http.dart' as http;
@@ -19,11 +20,14 @@ class JournalService {
   }
 
   //Criando um controller de registro (POST)
-  Future<bool> register(Journal journal) async {
+  Future<bool> register(Journal journal, String token) async {
     String jsonJournal = json.encode(journal.toMap());
     http.Response response = await client.post(
       Uri.parse(getUrl()),
-      headers: {'Content-type': 'application/json'},
+      headers: {
+        'Content-type': 'application/json',
+        "Authorization": "Bearer $token",
+      },
       body: jsonJournal,
     );
     if (response.statusCode == 201) {
@@ -33,11 +37,14 @@ class JournalService {
   }
 
   //Criando Controller de edição (PUT)
-  Future<bool> edit(String id, Journal journal) async {
+  Future<bool> edit(String id, Journal journal, String token) async {
     String jsonJournal = json.encode(journal.toMap());
     http.Response response = await client.put(
       Uri.parse("${getUrl()}$id"),
-      headers: {'Content-type': 'application/json'},
+      headers: {
+        'Content-type': 'application/json',
+        "Authorization": "Bearer $token",
+      },
       body: jsonJournal,
     );
 
@@ -48,17 +55,16 @@ class JournalService {
   }
 
   //Criando um controller de leitura (GET)
-  Future<List<Journal>> getAll({required String id, required String token}) async {
+  Future<List<Journal>> getAll(
+      {required String id, required String token}) async {
     http.Response response = await client.get(
-      Uri.parse("${url}users/$id/journals"),
-      headers: {
-       "Authorization" : "Bearer $token"
-      }
-    );
+        Uri.parse("${url}users/$id/journals"),
+        headers: {"Authorization": "Bearer $token"});
 
     if (response.statusCode != 200) {
       throw Exception();
     }
+
 
     List<Journal> list = [];
 

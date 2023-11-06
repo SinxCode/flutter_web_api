@@ -26,6 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   JournalService service = JournalService();
 
+  int? userId;
+
   @override
   void initState() {
     refresh();
@@ -48,15 +50,17 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: const Icon(Icons.refresh))
         ],
       ),
-      body: ListView(
+      body: (userId != null)?
+      ListView(
         controller: _listScrollController,
         children: generateListJournalCards(
           windowPage: windowPage,
           currentDay: currentDay,
           database: database,
           refreshFunction: refresh,
+          userId: userId!,
         ),
-      ),
+      ):const Center(child: CircularProgressIndicator(),),
     );
   }
 
@@ -67,6 +71,9 @@ class _HomeScreenState extends State<HomeScreen> {
       String? email = prefs.getString("email");
       int? id = prefs.getInt("id");
       if (token != null && email != null && id != null) {
+        setState(() {
+          userId = id;
+        });
         service
             .getAll(id: id.toString(), token: token)
             .then((List<Journal> listJournal) {
@@ -77,7 +84,8 @@ class _HomeScreenState extends State<HomeScreen> {
             }
           });
         });
-      } else {
+      }     
+      else {
         Navigator.pushReplacementNamed(context, "login");
       }
     });
