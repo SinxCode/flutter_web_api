@@ -27,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   JournalService service = JournalService();
 
   int? userId;
+  String? userToken;
 
   @override
   void initState() {
@@ -50,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: const Icon(Icons.refresh))
         ],
       ),
-      body: (userId != null)?
+      body: (userId != null && userToken !=null)?
       ListView(
         controller: _listScrollController,
         children: generateListJournalCards(
@@ -59,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
           database: database,
           refreshFunction: refresh,
           userId: userId!,
+          token: userToken!,
         ),
       ):const Center(child: CircularProgressIndicator(),),
     );
@@ -73,6 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
       if (token != null && email != null && id != null) {
         setState(() {
           userId = id;
+          userToken = token;
+
         });
         service
             .getAll(id: id.toString(), token: token)

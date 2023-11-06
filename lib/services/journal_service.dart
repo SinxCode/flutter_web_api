@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 import 'package:flutter_webapi_first_course/models/journal.dart';
 import 'package:flutter_webapi_first_course/services/http_interceptors.dart';
 import 'package:http/http.dart' as http;
@@ -65,7 +64,6 @@ class JournalService {
       throw Exception();
     }
 
-
     List<Journal> list = [];
 
     List<dynamic> listDynamic = json.decode(response.body);
@@ -78,8 +76,9 @@ class JournalService {
   }
 
   //Criando um controller de Deletar (DELETE)
-  Future<bool> delete(String id) async {
-    http.Response response = await http.delete(Uri.parse("${getUrl()}$id"));
+  Future<bool> delete(String id, String token) async {
+    http.Response response = await http.delete(Uri.parse("${getUrl()}$id"),
+        headers: {"Authorization": "Bearer $token"});
     if (response.statusCode == 200) {
       return true;
     }
