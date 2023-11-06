@@ -73,7 +73,11 @@ class LoginScreen extends StatelessWidget {
     String password = _passwordController.text;
 
     try {
-      bool result = await service.login(email: email, password: password);
+      service.login(email: email, password: password).then((resultLogin){
+        if (resultLogin) {
+          Navigator.pushReplacementNamed(context, "home");
+        }
+      } );
     } on UserNotFindException {
       ShowConfirmationDialog(
         context,
@@ -82,7 +86,11 @@ class LoginScreen extends StatelessWidget {
         affirmativeOption: "CRIAR",
       ).then((value) {
         if (value != null && value) {
-          service.register(email: email, password: password);
+          service.register(email: email, password: password).then((resultRegister) {
+            if (resultRegister) {
+              Navigator.pushReplacementNamed(context, "home");
+            }
+          });
           
         }
       });

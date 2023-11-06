@@ -2,21 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_webapi_first_course/models/journal.dart';
 import 'package:flutter_webapi_first_course/screens/home_screen/add_journal_screen/add_journal_screen.dart';
 import 'package:flutter_webapi_first_course/screens/home_screen/login_Screen/login_screen.dart';
-import 'package:flutter_webapi_first_course/services/journal_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'screens/home_screen/home_screen.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async{
+  //Assegurando para o flutter que a função main é assync
+  WidgetsFlutterBinding.ensureInitialized();
 
-  JournalService service = JournalService();
-  SharedPreferences.setMockInitialValues({});
-  //service.register(Journal.empty());
-  //service.getAll();
+  //Utilizando função se está logado na main
+  bool isLogged = await verifyToken();
+  //Passando a função como parametro no my app
+  runApp( MyApp(isLogged: isLogged,));
+}
+
+//Função para verificar se o usuário está logado.
+Future<bool> verifyToken() async{
+  SharedPreferences  prefs = await SharedPreferences.getInstance();
+  String? token = prefs.getString("accessToken");
+  if (token != null) {
+    return true;
+  }
+  return false;
+
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final bool isLogged;
+  const MyApp({Key? key, required this.isLogged}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,7 +50,7 @@ class MyApp extends StatelessWidget {
       ),
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.light,
-      initialRoute: "login",
+      initialRoute: (isLogged)? "home": "login",
       routes: {
         "home": (context) =>  HomeScreen(),
         "login": (context) =>  LoginScreen(),
