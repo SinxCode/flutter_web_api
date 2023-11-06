@@ -22,27 +22,32 @@
   "journals": [
     {
       "id": "dc7aaa00-736d-11ee-b279-7fbd1b564b56",
-      "content": "",
-      "createdAt": "2023-10-25 19:36:58.277605",
-      "updatedAt": "2023-10-25 19:36:58.277785"
+      "content": "Que porra de segunda",
+      "createdAt": "2023-11-06 19:36:58.277605",
+      "updatedAt": "2023-11-06 19:36:58.277785",
+      "userId": 1
+      
     },
     {
       "id": "878e2d30-736f-11ee-ae3b-8fefc03c9f87",
-      "content": "",
-      "createdAt": "2023-10-25 19:48:54.792539",
-      "updatedAt": "2023-10-25 19:48:54.792551"
+      "content": "aaaaaaah",
+      "createdAt": "2023-10-30 19:48:54.792539",
+      "updatedAt": "2023-10-30 19:48:54.792551",
+      "userId": 1
     },
     {
       "id": "94b889b0-736f-11ee-ae3b-8fefc03c9f87",
       "content": "Hoje foi um grande dia de merda",
       "createdAt": "2023-10-17 19:48:55.608815",
-      "updatedAt": "2023-10-17 19:48:55.608815"
+      "updatedAt": "2023-10-17 19:48:55.608815",
+      "userId": 3
     },
     {
       "id": "aa7c9700-736f-11ee-ae3b-8fefc03c9f87",
       "content": "Ainda está merda",
       "createdAt": "2023-10-18 19:48:55.608815",
       "updatedAt": "2023-10-18 19:48:55.608815"
+      
     },
     {
       "id": "cc63d490-7370-11ee-88ae-e9b7f8bf47f7",

@@ -23,9 +23,7 @@ class JournalService {
     String jsonJournal = json.encode(journal.toMap());
     http.Response response = await client.post(
       Uri.parse(getUrl()),
-      headers: {
-        'Content-type' : 'application/json'
-      },
+      headers: {'Content-type': 'application/json'},
       body: jsonJournal,
     );
     if (response.statusCode == 201) {
@@ -35,27 +33,29 @@ class JournalService {
   }
 
   //Criando Controller de edição (PUT)
-  Future<bool> edit(String id, Journal journal) async{
+  Future<bool> edit(String id, Journal journal) async {
     String jsonJournal = json.encode(journal.toMap());
-     http.Response response = await client.put(
+    http.Response response = await client.put(
       Uri.parse("${getUrl()}$id"),
-      headers: {
-        'Content-type' : 'application/json'
-      },
+      headers: {'Content-type': 'application/json'},
       body: jsonJournal,
     );
 
-    if (response.statusCode ==200) {
+    if (response.statusCode == 200) {
       return true;
     }
     return false;
-
   }
 
   //Criando um controller de leitura (GET)
-  Future<List<Journal>> getAll() async {
-    http.Response response = await client.get(Uri.parse(getUrl()));
-    
+  Future<List<Journal>> getAll({required String id, required String token}) async {
+    http.Response response = await client.get(
+      Uri.parse("${url}users/$id/journals"),
+      headers: {
+       "Authorization" : "Bearer $token"
+      }
+    );
+
     if (response.statusCode != 200) {
       throw Exception();
     }
@@ -64,7 +64,7 @@ class JournalService {
 
     List<dynamic> listDynamic = json.decode(response.body);
 
-    for (var jsonMap in listDynamic){
+    for (var jsonMap in listDynamic) {
       list.add(Journal.fromMap(jsonMap));
     }
     //print(list.length);
@@ -72,12 +72,11 @@ class JournalService {
   }
 
   //Criando um controller de Deletar (DELETE)
-  Future<bool> delete (String id) async{
+  Future<bool> delete(String id) async {
     http.Response response = await http.delete(Uri.parse("${getUrl()}$id"));
     if (response.statusCode == 200) {
       return true;
     }
-      return false;
+    return false;
   }
-
 }
