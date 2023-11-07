@@ -60,9 +60,6 @@ class AuthService {
     prefs.setString("email", email);
     prefs.setInt("id", id);
 
-    String? tokenSalvo = prefs.getString("accessToken");
-    print(tokenSalvo);
-
   }
 }
 
